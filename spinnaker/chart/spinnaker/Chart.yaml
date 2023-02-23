@@ -1,0 +1,10 @@
+apiVersion: v2
+name: spinnaker
+description: A Helm chart for installing ArgoCD
+type: application
+version: 2.2.7
+appVersion: "1.26.6"
+dependencies:
+- name: spinnaker
+  version: "2.2.7"
+  repository: "https://helmcharts.opsmx.com/"
