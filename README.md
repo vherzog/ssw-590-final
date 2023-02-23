@@ -1,7 +1,7 @@
 # ssw-590-final
 Repo to house final paper/project work for SSW-590
 
-## Getting Started
+## ArgoCD
 
 ### Prerequisites
 You must have the following installed to run this demo (assuming Mac):
@@ -11,6 +11,8 @@ You must have the following installed to run this demo (assuming Mac):
 * kubectl
 * helm
 
+
+### Getting Started
 1. Start a minikube cluster
 ```
 minikube start — memory='1985' — cpus='4'
@@ -47,3 +49,9 @@ k apply -f root-app.yaml
 ```
 argocd app list
 ```
+
+## Spinnaker
+
+### Prerequisites
+
+### Getting Started
