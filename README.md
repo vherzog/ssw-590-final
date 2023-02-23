@@ -1,36 +1,49 @@
 # ssw-590-final
 Repo to house final paper/project work for SSW-590
 
-## NOTES
-Following https://mycloudjourney.medium.com/argocd-series-how-to-install-argocd-on-a-single-node-minikube-cluster-1d3a46aaad20:
-1. Run K8s cluster using minikube
+## Getting Started
+
+### Prerequisites
+You must have the following installed to run this demo (assuming Mac):
+* git
+* Docker Desktop
+* minikube
+* kubectl
+* helm
+
+1. Start a minikube cluster
 ```
 minikube start — memory='1985' — cpus='4'
 ```
-2. Create argocd namespace
+1. Install argocd resources + CLI
 ```
-kubectl create namespace argocd
-```
-3. Install argocd + sealedsecrets resources
-```
-## Needed to use older version due to errors with repo-server
+# install resources
 helm dependency update charts/argo-cd
-helm upgrade -i --create-namespace argocd charts/argo-cd
+helm upgrade -i --create-namespace -n argocd argocd charts/argo-cd
 
-helm dependency update charts/sealed-secrets
-helm upgrade -i --create-namespace -n kube-system sealed-secrets charts/sealed-secrets
+# install CLI ==> https://argo-cd.readthedocs.io/en/stable/cli_installation/
+VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+curl -sSL -o argocd-darwin-amd64 https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-darwin-amd64
+sudo install -m 555 argocd-darwin-amd64 /usr/local/bin/argocd
+rm argocd-darwin-amd64
 ```
-4. Get default admin password
+1. Get default admin password
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
-5. Port forward to UI
+1. Access ArgoCD via UI or CLI
 ```
+## UI --> Port forward and go to localhost:8080 in browser
 kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
-6. Login with admin creds
-```
+
+## CLI --> Login locally
 argocd login localhost:8080
-k apply -f argo/minikube/guestbook.yaml
+```
+1. Create root application
+```
+k apply -f root-app.yaml
+```
+1. Watch as child apps are created!
+```
 argocd app list
 ```

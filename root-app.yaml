@@ -14,3 +14,8 @@ spec:
     path: apps
     repoURL: https://github.com/vherzog/ssw-590-final
     targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
