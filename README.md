@@ -3,6 +3,8 @@ Repo to house final paper/project work for SSW-590
 
 ## ArgoCD
 
+Code lives under the [argocd/](argocd/) directory.
+
 ### Prerequisites
 You must have the following installed to run this demo (assuming Mac):
 * git
@@ -13,6 +15,10 @@ You must have the following installed to run this demo (assuming Mac):
 
 
 ### Getting Started
+1. Navigate to `argocd/` dir
+```
+cd argocd/
+```
 1. Start a minikube cluster
 ```
 minikube start — memory='1985' — cpus='4'
