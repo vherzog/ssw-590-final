@@ -11,7 +11,7 @@ spec:
     name: in-cluster
   project: default
   source:
-    path: apps
+    path: argocd/apps
     repoURL: https://github.com/vherzog/ssw-590-final
     targetRevision: HEAD
   syncPolicy:
