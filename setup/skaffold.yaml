@@ -1,0 +1,22 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: setup
+deploy:
+  helm:
+    releases:
+    - name: argocd
+      repo: https://argoproj.github.io/argo-helm
+      remoteChart: argo-cd
+      namespace: argocd
+      version: 4.10.9
+      setValues:
+        crds.keep: false
+      createNamespace: true
+      upgradeOnChange: true
+    - name: sealed-secrets
+      repo: https://bitnami-labs.github.io/sealed-secrets
+      remoteChart: sealed-secrets
+      namespace: kube-system
+      version: 2.7.4
+      upgradeOnChange: true

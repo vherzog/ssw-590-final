@@ -1,4 +1,0 @@
-minio:
-  resources:
-    requests:
-      memory: 500Mi

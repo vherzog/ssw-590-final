@@ -1,3 +1,4 @@
-**/Chart.lock
-**/charts/
+charts/**/Chart.lock
+charts/**/charts/
 .vscode/*
+terraform/*crds.json
