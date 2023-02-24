@@ -10,43 +10,32 @@ You must have the following installed to run this demo (assuming Mac):
 * minikube
 * kubectl
 * helm
+* skaffold
 
-1. Start a minikube cluster
+2. Start a minikube cluster
 ```
 minikube start — memory='1985' — cpus='4'
 ```
-2. Open the minikube dashboard
+3. Open the minikube dashboard
 ```
 minikube dashboard
 ```
 
 ## ArgoCD
 
-Code lives under the [argocd/](argocd/) directory.
-
+Code lives under the [tools/argocd/](tools/argocd/) directory.
 
 ### Getting Started
-1. Navigate to `argocd/` dir
+1. Deploy ArgoCD
 ```
-cd argocd/
+# deploy the argocd Helm chart using skaffold
+skaffold --profile argocd deploy
 ```
-2. Install argocd resources + CLI
-```
-# install resources
-helm dependency update charts/argo-cd
-helm upgrade -i --create-namespace -n argocd argocd charts/argo-cd
-
-# install CLI ==> https://argo-cd.readthedocs.io/en/stable/cli_installation/
-VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-curl -sSL -o argocd-darwin-amd64 https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-darwin-amd64
-sudo install -m 555 argocd-darwin-amd64 /usr/local/bin/argocd
-rm argocd-darwin-amd64
-```
-3. Get default admin password
+2. Get default admin password
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
-4. Access ArgoCD via UI or CLI
+3. Access ArgoCD via UI or CLI
 ```
 ## UI --> Port forward and go to localhost:8080 in browser
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -54,26 +43,22 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 ## CLI --> Login locally
 argocd login localhost:8080
 ```
-5. Create root application
+4. Create root application
 ```
 kubectl apply -f root-app.yaml
 ```
-6. Watch as child apps are created!
+5. Watch as child apps are created!
 ```
 argocd app list
 ```
 
 ## Spinnaker
 
-Code lives under the [spinnaker/](spinnaker/) directory.
+Code lives under the [tools/spinnaker/](tools/spinnaker/) directory.
 
-### Getting Started
-
-1. Navigate to `spinnaker/` dir
+1. Deploy Spinnaker
 ```
-cd spinnaker/
-```
-2. Install spinnaker resources + CLI
-```
-
+# deploy the argocd Helm chart using skaffold
+## NOTE: This may take some time!
+skaffold --profile spinnaker deploy
 ```
