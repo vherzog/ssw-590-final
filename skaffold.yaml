@@ -1,0 +1,39 @@
+apiVersion: skaffold/v4beta2
+kind: Config
+metadata:
+  name: ssw-590-final
+
+profiles:
+  - name: spinnaker
+    deploy:
+      helm:
+        releases:
+        - name: spinnaker
+          repo: https://opsmx.github.io/spinnaker-helm/
+          remoteChart: spinnaker
+          namespace: spinnaker
+          version: 2.2.13
+          valuesFiles:
+          - tools/spinnaker/values.yaml
+          createNamespace: true
+          upgradeOnChange: true
+        flags:
+          upgrade: ["--timeout", "1800s"]
+          install: ["--timeout", "1800s"]
+  - name: argocd
+    deploy:
+      helm:
+        releases:
+        - name: argocd
+          repo: https://argoproj.github.io/argo-helm
+          remoteChart: argo-cd
+          namespace: argocd
+          version: 4.10.9
+          valuesFiles:
+          - tools/argocd/values.yaml
+          createNamespace: true
+          upgradeOnChange: true
+        hooks:
+          after:
+            - host:
+                command: ["sh", "-c", "./argocd/post_deploy.sh"]
